@@ -1,44 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { useSelector, useDispatch } from "react-redux";
 
 import CustomHeaderButton from "../../components/UI/HeaderButton";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
+import * as profileActions from "../../store/actions/profile";
 
 const ProfileEdit = props => {
-	const [myPictureUrl, setMyPictureUrl] = useState(
-		"https://images.unsplash.com/photo-1516328432920-123fae55f0f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-	);
-	const [firstname, setFirstname] = useState("Tarja");
-	const [lastname, setLastname] = useState("Turunen");
-	const [description, setDescription] = useState(
-		"I like breathing the fresh air of the fjords, it makes me feel alive !"
-	);
-	const [location, setLocation] = useState("Lofoten Islands");
+	const dispatch = useDispatch();
+	const myProfile = useSelector(state => state.profile.profile);
+
+	const [myPictureUrl, setMyPictureUrl] = useState(myProfile.myPictureUrl);
+	const [firstname, setFirstname] = useState(myProfile.firstname);
+	const [lastname, setLastname] = useState(myProfile.lastname);
+	const [description, setDescription] = useState(myProfile.description);
+	const [location, setLocation] = useState(myProfile.location);
 
 	const myPictureTextChangeHandler = text => {
 		setMyPictureUrl(text);
-    };
-    
-    const firstnameTextChangeHandler = text => {
-        setFirstname(text)
-    }
+	};
 
-    const lastnameTextChangeHandler = text => {
-        setLastname(text)
-    }
+	const firstnameTextChangeHandler = text => {
+		setFirstname(text);
+	};
 
-    const descriptionTextChangeHandler = text => {
-        setDescription(text)
-    }
+	const lastnameTextChangeHandler = text => {
+		setLastname(text);
+	};
 
-    const locationTextChangeHandler = text => {
-        setLocation(text)
-    }
+	const descriptionTextChangeHandler = text => {
+		setDescription(text);
+	};
 
+	const locationTextChangeHandler = text => {
+		setLocation(text);
+	};
 
+	const submitHandler = useCallback(() => {
+		dispatch(
+			profileActions.updateProfile(
+				myPictureUrl,
+				firstname,
+				lastname,
+				description,
+				location
+			)
+		);
+		props.navigation.goBack();
+	}, [dispatch, myPictureUrl, firstname, lastname, description, location]);
 
-
+	useEffect(() => {
+		props.navigation.setParams({ submit: submitHandler });
+	}, [submitHandler]);
 
 	return (
 		<ScrollView>
@@ -49,37 +63,37 @@ const ProfileEdit = props => {
 						style={styles.input}
 						value={myPictureUrl}
 						onChangeText={myPictureTextChangeHandler}
-                        returnKeyType="next"
+						returnKeyType="next"
 					/>
 				</View>
-                <View style={styles.formControl}>
+				<View style={styles.formControl}>
 					<Text style={styles.label}>Firstname:</Text>
 					<TextInput
 						style={styles.input}
 						value={firstname}
 						onChangeText={firstnameTextChangeHandler}
-                        returnKeyType="next"
+						returnKeyType="next"
 					/>
 				</View>
-                <View style={styles.formControl}>
+				<View style={styles.formControl}>
 					<Text style={styles.label}>Lastname:</Text>
 					<TextInput
 						style={styles.input}
 						value={lastname}
 						onChangeText={lastnameTextChangeHandler}
-                        returnKeyType="next"
+						returnKeyType="next"
 					/>
 				</View>
-                <View style={styles.formControl}>
+				<View style={styles.formControl}>
 					<Text style={styles.label}>Description:</Text>
 					<TextInput
 						style={styles.input}
 						value={description}
 						onChangeText={descriptionTextChangeHandler}
-                        returnKeyType="next"
+						returnKeyType="next"
 					/>
 				</View>
-                <View style={styles.formControl}>
+				<View style={styles.formControl}>
 					<Text style={styles.label}>I live in:</Text>
 					<TextInput
 						style={styles.input}
@@ -93,6 +107,7 @@ const ProfileEdit = props => {
 };
 
 ProfileEdit.navigationOptions = navData => {
+	const submitFn = navData.navigation.getParam("submit");
 	return {
 		headerTitle: "Edit Profile",
 		headerRight: () => (
@@ -104,9 +119,7 @@ ProfileEdit.navigationOptions = navData => {
 							? "md-checkmark"
 							: "ios-checkmark"
 					}
-					onPress={() => {
-						navData.navigation.navigate("ProfileEdit");
-					}}
+					onPress={submitFn}
 				/>
 			</HeaderButtons>
 		)
@@ -120,10 +133,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center"
-    },
-    formControl: {
-        width: "90%",
-        margin: 10
+	},
+	formControl: {
+		width: "90%",
+		margin: 10
 	},
 	label: {
 		fontFamily: "barlow-bold",
@@ -133,6 +146,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 2,
 		paddingVertical: 5,
 		borderBottomColor: "#ccc",
-        borderBottomWidth: 1
+		borderBottomWidth: 1
 	}
 });

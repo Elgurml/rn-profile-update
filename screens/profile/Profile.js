@@ -7,27 +7,20 @@ import CustomHeaderButton from "../../components/UI/HeaderButton";
 
 const Profile = props => {
 const myProfile = useSelector(state => state.profile.profile)
-console.log("description------",myProfile)
 
 	return (
 		<View style={styles.screen}>
 			<Image
 				style={styles.image}
-				source={{
-					uri:
-						"https://images.unsplash.com/photo-1516328432920-123fae55f0f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-				}}
+				source={{uri: myProfile.myPictureUrl}}
 			/>
 			<View style={styles.idCard}>
 				<Text style={styles.id}>{myProfile.firstname}</Text>
-				<Text style={styles.id}>Turunen</Text>
-				<Text style={styles.description}>
-					I like breathing the fresh air of the fjords, it makes me
-					feel alive !
-				</Text>
+				<Text style={styles.id}>{myProfile.lastname}</Text>
+				<Text style={styles.description}>{myProfile.description}</Text>
 				<View style={styles.location}>
 					<Text style={styles.label}>I am from:</Text>
-					<Text style={styles.home}>Lofoten Islands</Text>
+					<Text style={styles.home}>{myProfile.location}</Text>
 				</View>
 			</View>
 		</View>
