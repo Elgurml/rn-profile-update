@@ -15,12 +15,16 @@ const Profile = props => {
 				}}
 			/>
 			<View style={styles.idCard}>
-				<Text>Tarja</Text>
-				<Text>Turunen</Text>
-				<Text>
+				<Text style={styles.id}>Tarja</Text>
+				<Text style={styles.id}>Turunen</Text>
+				<Text style={styles.description}>
 					I like breathing the fresh air of the fjords, it makes me
 					feel alive !
 				</Text>
+				<View style={styles.location}>
+					<Text style={styles.label}>I am from:</Text>
+					<Text style={styles.home}>Lofoten Islands</Text>
+				</View>
 			</View>
 		</View>
 	);
@@ -57,16 +61,36 @@ const styles = StyleSheet.create({
 		height: "40%",
 		borderBottomLeftRadius: 20,
 		borderBottomRightRadius: 20
-    },
-    idCard: {
-        marginHorizontal: 40,
-        padding: 10,
-        shadowColor: "black",
+	},
+	idCard: {
+		position: "absolute",
+		top: "35%",
+		height: "50%",
+		marginHorizontal: 40,
+		padding: 10,
+		shadowColor: "black",
 		shadowOpacity: 0.6,
 		shadowOffset: { width: 0, height: 20 },
 		shadowRadius: 8,
 		elevation: 5,
 		borderRadius: 10,
 		backgroundColor: "white"
-    }
+	},
+	id: {
+		fontFamily: "barlow-bold",
+		fontSize: 25,
+		textAlign: "center"
+	},
+	description: {
+		fontFamily: "barlow",
+		margin: 20
+    },
+    location: {
+        margin: 20,
+    },
+	home: {
+		fontFamily: "barlow",
+		marginLeft: 20,
+		color: "#ccc"
+	}
 });
