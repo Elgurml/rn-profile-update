@@ -1,10 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { useSelector } from "react-redux"
 
 import CustomHeaderButton from "../../components/UI/HeaderButton";
 
 const Profile = props => {
+const myProfile = useSelector(state => state.profile.profile)
+console.log("description------",myProfile)
+
 	return (
 		<View style={styles.screen}>
 			<Image
@@ -15,7 +19,7 @@ const Profile = props => {
 				}}
 			/>
 			<View style={styles.idCard}>
-				<Text style={styles.id}>Tarja</Text>
+				<Text style={styles.id}>{myProfile.firstname}</Text>
 				<Text style={styles.id}>Turunen</Text>
 				<Text style={styles.description}>
 					I like breathing the fresh air of the fjords, it makes me

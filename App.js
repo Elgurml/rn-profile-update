@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
 
 import ProfileNavigator from './navigation/profileNavigator';
+import profileReducer from "./store/reducers/profile"
+
+const rootReducer = combineReducers({
+  profile: profileReducer
+})
+
+const store = createStore(rootReducer)
 
 const fetchFonts = () => {
 	return Font.loadAsync({
@@ -26,6 +35,8 @@ export default function App() {
 	}
 
   return (
+    <Provider store={store}>
     <ProfileNavigator />
+    </Provider>
   ) 
 }
